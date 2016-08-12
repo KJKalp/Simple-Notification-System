@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gossip Girls</title>
+    <link rel='stylesheet' href='/stylesheets/signin.css' />
+  </head>
+  <body>
+    <section class="container">
+        <div class="login">
+          <h1>SIGN IN</h1>
+          <form method="post">
+            <input type="text" name="username" placeholder="Username or Email"><br>
+            <input type="password" name="password" placeholder="Password"><br><br>
+            <button type="submit" name="commit">Signin</button>
+            <% if (badCredentials) { %>
+                <p class='error'>Wrong Username/Email or Password</p>
+            <% } %>
+            <p>New User? <a href='/signup'> SIGN UP </a></p>
+          </form>
+        </div>
+        </div>
+      </section>
+  </body>
+</html>

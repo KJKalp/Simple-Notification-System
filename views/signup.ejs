@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gossip Girls</title>
+    <link rel='stylesheet' href='/stylesheets/signup.css' />
+  </head>
+  <body>
+    <section class="container">
+        <div class="login">
+          <h1>SIGN UP</h1>
+          <form action="\signup", method="post">
+            <input type="text" name="username" placeholder="Username"><br>
+            <input type="text" name="email" placeholder="Email"><br>
+            <input type="password" name="password" placeholder="Password"><br>
+            <input type="password" name="password_confirmation" placeholder="Confirm Password"><br><br>
+            <button type="submit" name="commit">Signup</button>
+            <% if (error) { %>
+                <p class="error"> <%= error %> </p>
+            <% } %>
+            <p>Already Registerd? <a href='/signin'> SIGN IN </a></p>
+          </form>
+        </div>
+        </div>
+      </section>
+  </body>
+</html>
