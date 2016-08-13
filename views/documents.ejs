@@ -13,8 +13,13 @@
         <li> <a href="/documents/<%= docs[i].name %>"> <%= docs[i].name %> </a> </li>
       <% } %>
       </ul>
+      <% if(!subscribed) { %>
+        <form method="post">
+            <button name="subscribe" value="true">Subscribe</button>
+        </form>
+      <% } %>
       <h1>Add A New Document</h1>
-      <form action="\documents", method="post">
+      <form method="post">
         <input type="text" name="name" placeholder="Document Name"><br>
         <input type="text" name="fname" placeholder="First Name"><br>
         <input type="text" name="lname" placeholder="Last Name"><br>
@@ -23,6 +28,6 @@
         <% if (error) { %>
             <p class='error'><%= error %><p>
         <% } %>
-        <button type="submit" name="commit">Add</button>
-  </body>
+        <button type="submit" name="add">Add</button>
+    </body>
 </html>

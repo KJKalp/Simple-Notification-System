@@ -2,8 +2,14 @@ label {
     width: 120px;
     clear: left;
     text-align: right;
-    padding-right: 10px;
-    padding-bottom: 20px;
+    padding: 0px 10px 10px 0;
+}
+
+button {
+    clear: left;
+    float: left;
+    margin: 10px 0 0 80px;
+    font-size: 16px;
 }
 
 input, label {

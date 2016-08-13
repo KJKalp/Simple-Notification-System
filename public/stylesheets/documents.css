@@ -1,6 +1,19 @@
 .error {
     color: red;
 }
+
 ul {
     list-style-type: none;
+}
+
+li {
+    padding: 5px 0 5px 0;
+}
+
+button {
+    margin: 5px 0 0 50px;
+}
+
+input {
+    margin: 0 0 5px 10px;
 }

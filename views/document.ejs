@@ -7,12 +7,22 @@
   <body>
       <h1>Details:</h1>
       <label>First Name: </label>
-      <input type="text" name="fname" value="<%= doc.fname %>"><br>
-      <label>Last Name: </label>
-      <input type="text" name="lname" value="<%= doc.lname %>"><br>
-      <label>Age: </label>
-      <input type="text" name="age" value="<%= doc.age %>"><br>
-      <label>Mobile Number: </label>
-      <input type="text" name="mobile" value="<%= doc.mobile %>"><br>
+      <form method='post'>
+          <input type="text" name="fname" value="<%= doc.fname %>"><br>
+          <label>Last Name: </label>
+          <input type="text" name="lname" value="<%= doc.lname %>"><br>
+          <label>Age: </label>
+          <input type="text" name="age" value="<%= doc.age %>"><br>
+          <label>Mobile Number: </label>
+          <input type="text" name="mobile" value="<%= doc.mobile %>"><br>
+          <button type="submit" name="commit">Update</button>
+      </form>
+      <button class='subscribe'>Subscribe</button>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+      <script>
+        $('.subscribe').click(function() {
+            $.post('/documents/<%= doc.name %>/subscribe');
+        });
+      </script>
   </body>
 </html>
