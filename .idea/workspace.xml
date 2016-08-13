@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="313686cf-1994-46ed-87f9-60dabfefc98b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/document.js" afterPath="$PROJECT_DIR$/routes/document.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/documents.js" afterPath="$PROJECT_DIR$/routes/documents.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/signup.js" afterPath="$PROJECT_DIR$/routes/signup.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/document.ejs" afterPath="$PROJECT_DIR$/views/document.ejs" />
     </list>
     <ignored path="SocialCops.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -756,7 +752,7 @@
       <workItem from="1471064438568" duration="6849000" />
       <workItem from="1471087351408" duration="7522000" />
       <workItem from="1471100794715" duration="476000" />
-      <workItem from="1471105709409" duration="2667000" />
+      <workItem from="1471105709409" duration="2685000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <created>1471019074883</created>
@@ -779,11 +775,18 @@
       <option name="project" value="LOCAL" />
       <updated>1471094319851</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Subscribe Done">
+      <created>1471108908193</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1471108908193</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63897000" />
+    <option name="totallyTimeSpent" value="63915000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
