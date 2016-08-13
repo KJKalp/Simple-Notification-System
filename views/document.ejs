@@ -15,14 +15,10 @@
           <input type="text" name="age" value="<%= doc.age %>"><br>
           <label>Mobile Number: </label>
           <input type="text" name="mobile" value="<%= doc.mobile %>"><br>
-          <button type="submit" name="commit">Update</button>
+          <button type="submit" name="update">Update</button>
+          <% if (!subscribed) { %>
+            <button name='subscribe' value='true'>Subscribe</button>
+          <% } %>
       </form>
-      <button class='subscribe'>Subscribe</button>
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-      <script>
-        $('.subscribe').click(function() {
-            $.post('/documents/<%= doc.name %>/subscribe');
-        });
-      </script>
   </body>
 </html>

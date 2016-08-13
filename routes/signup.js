@@ -25,7 +25,8 @@ function createUser(username, email, password, password_confirmation, callback) 
         var userObject = {
             username: username,
             email: email,
-            password: password
+            password: password,
+            notifications: []
         };
 
         // Make sure this username/email does not exist already

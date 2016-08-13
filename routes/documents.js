@@ -43,7 +43,8 @@ function createDocument(name, fname, lname, age, mobile, callback) {
                fname: fname,
                lname: lname,
                age: age,
-               mobile: mobile
+               mobile: mobile,
+               subscribers: []
            };
            col.insertOne(obj, function (err, document) {
                col.createIndex({name: 1});
