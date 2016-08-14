@@ -14,35 +14,34 @@ router.get('/', function(req, res, next) {
         if(subs) {
             subscribed = true;
         }
-    });
+        var col = mongo.collection('documents');
 
-    var col = mongo.collection('documents');
+        //To find the document name which is opened
+        var urlArray = req.originalUrl.split('/');
+        name = urlArray[urlArray.length - 1];
 
-    //To find the document name which is opened
-    var urlArray = req.originalUrl.split('/');
-    name = urlArray[urlArray.length - 1];
-
-    //Extract the document from the database
-    col.findOne({name: name}, function(err, doc) {
-        if (!subscribed) {
-            for(var i = 0; i < doc.subscribers.length; ++i) {
-                if(doc.subscribers[i] == req.session.username) {
-                    subscribed = true;
-                    break;
+        //Extract the document from the database
+        col.findOne({name: name}, function(err, doc) {
+            if (!subscribed) {
+                for(var i = 0; i < doc.subscribers.length; ++i) {
+                    if(doc.subscribers[i] == req.session.username) {
+                        subscribed = true;
+                        break;
+                    }
                 }
             }
-        }
-        var obj = {
-            fname: doc.fname,
-            lname: doc.lname,
-            age: doc.age,
-            mobile: doc.mobile
-        };
-        res.render('document', {
-            doc: obj,
-            subscribed: subscribed
+            var obj = {
+                fname: doc.fname,
+                lname: doc.lname,
+                age: doc.age,
+                mobile: doc.mobile
+            };
+            res.render('document', {
+                doc: obj,
+                subscribed: subscribed
+            });
         });
-    })
+    });
 });
 
 router.post('/', function(req, res) {
@@ -81,13 +80,33 @@ router.post('/', function(req, res) {
                         age: age,
                         mobile: mobile
                     }
-                }, function (err, result) {
-                });
+                }, function (err, result) {});
                 if (cnt > 1)
                     notification = cnt + " changes are made in " + name;
                 else
                     notification = notification + " in " + name;
-                console.log(notification);
+                mongo.collection('notifications').insertOne({
+                    notification: notification,
+                    from: name
+                }, function(err, notify) {
+                    var notificationId = notify.ops[0]._id;
+                    mongo.collection('subscribers').find({}).toArray(function (err, users) {
+                        for(var i = 0; i < users.length; ++i) {
+                            if(users[i].username != req.session.username) {
+                                mongo.collection('users').updateOne({username: users[i].username},
+                                    {$addToSet: {notifications: notificationId}},
+                                    function (err, res){});
+                            }
+                        }
+                    });
+                    for(var i = 0; i < doc.subscribers.length; ++i) {
+                        if(doc.subscribers[i] != req.session.username) {
+                            mongo.collection('users').updateOne({username: doc.subscribers[i]},
+                                {$addToSet: {notifications: notificationId}},
+                                function (err, res){});
+                        }
+                    }
+                });
             }
             res.redirect('/documents/' + name);
         });

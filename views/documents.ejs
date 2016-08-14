@@ -5,6 +5,14 @@
     <link rel='stylesheet' href='/stylesheets/documents.css' />
   </head>
   <body>
+      <div class="dropdown">
+        <button onclick="drop()" class="notification">Notifications</button>
+        <div id="myDropdown" class="dropdown-content">
+            <% for(var i = 0; i < notifications.length; ++i) { %>
+                <a href="/documents/<%= notifications[i].from %>"><%= notifications[i].notification %></a>
+            <% } %>
+        </div>
+      </div>
       <% if (docs.length) { %>
         <h2> Documents available: </h2>
       <% } %>
@@ -30,4 +38,23 @@
         <% } %>
         <button type="submit" name="add">Add</button>
     </body>
+    <script>
+      function drop() {
+          document.getElementById("myDropdown").classList.toggle("show");
+      }
+
+      window.onclick = function(event) {
+        if (!event.target.matches('.notification')) {
+
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+    </script>
 </html>

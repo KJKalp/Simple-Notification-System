@@ -15,3 +15,9 @@ button {
 input, label {
     float: left;
 }
+
+a {
+    color: #00B7FF;
+    padding: 50px;
+    font-size: 20px;
+}

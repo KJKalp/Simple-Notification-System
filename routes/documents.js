@@ -7,27 +7,49 @@ var mongo = require('../mongo');
 
 var docs = [];
 var subscribed;
+var notifications;
 /* GET Documents page. */
 router.get('/', function(req, res, next) {
+    notifications = [];
     subscribed = false;
     mongo.collection('subscribers').findOne({username: req.session.username}, function(err, subs){
         if(subs) {
             subscribed = true;
         }
-    });
-    var col = mongo.collection('documents');
-    col.find({}).toArray(function(err, _docs) {
-        docs = _docs;
-        res.render('documents', {
-            docs: docs,
-            subscribed: subscribed,
-            error: null
+        mongo.collection('documents').find({}).toArray(function(err, _docs) {
+            docs = _docs;
+            mongo.collection('users').findOne({'username': req.session.username}, function (err, user) {
+                for (var i = user.notifications.length - 1; i > 0; --i) {
+                    mongo.collection('notifications').findOne({_id: user.notifications[i]}, function (err, notification) {
+                        notifications.push(notification);
+                    });
+                }
+                if (user.notifications.length) {
+                    mongo.collection('notifications').findOne({_id: user.notifications[0]}, function (err, notification) {
+                        notifications.push(notification);
+                        res.render('documents', {
+                            docs: docs,
+                            subscribed: subscribed,
+                            error: null,
+                            notifications: notifications
+                        });
+                    });
+                }
+                else {
+                    res.render('documents', {
+                        docs: docs,
+                        subscribed: subscribed,
+                        error: null,
+                        notifications: notifications
+                    });
+                }
+            });
         });
-    })
+    });
 });
 
 function createDocument(name, fname, lname, age, mobile, callback) {
-    col = mongo.collection('documents');
+    var col = mongo.collection('documents');
     col.findOne({name: name}, function(err, document) {
        if (document) {
            var err = 'Document with this name already exists. Please cahnge the name';
@@ -69,7 +91,8 @@ router.post('/', function(req, res) {
                 res.render('documents', {
                     docs: docs,
                     subscribed: subscribed,
-                    error: err
+                    error: err,
+                    notifications: notifications
                 });
             }
             else {
@@ -82,9 +105,9 @@ router.post('/', function(req, res) {
 function subscribe(req, res) {
     var col = mongo.collection('subscribers');
     col.insertOne({username: req.session.username}, function(err, subscriber) {
-        col.createIndex({name: 1});
+        col.createIndex({username: 1});
+        res.redirect('/documents');
     });
-    res.redirect('/documents');
 }
 
 module.exports = router;
