@@ -29,7 +29,7 @@ function createUser(username, email, password, password_confirmation, callback) 
             notifications: []
         };
 
-        // Make sure this username/email does not exist already
+        // Making sure this username/email does not exist already
         col.findOne(query, function(err, user){
             if (user) {
                 if(user.username == username)
@@ -50,6 +50,7 @@ function createUser(username, email, password, password_confirmation, callback) 
 }
 
 router.post('/', function(req, res){
+    //Extracting user details from html form
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;

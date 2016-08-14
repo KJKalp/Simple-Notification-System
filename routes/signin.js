@@ -5,11 +5,12 @@ var express = require('express');
 var router = express.Router();
 var mongo = require('../mongo');
 
-/* GET Signin page. */
+// GET Signin page.
 router.get('/', function(req, res, next) {
     res.render('signin', {badCredentials: false});
 });
 
+//Check if user has enter correct username and password
 function authenticateUser(username, password, callback){
     var col = mongo.collection('users');
     var query = { $or:
@@ -25,6 +26,7 @@ function authenticateUser(username, password, callback){
 }
 
 router.post('/', function(req, res){
+    //Extracting username and password obtained from html form
     var username = req.body.username;
     var password = req.body.password;
 
@@ -32,7 +34,8 @@ router.post('/', function(req, res){
         if (user) {
             req.session.username = user.username;
             res.redirect('/documents');
-        } else {
+        }
+        else {
             res.render('signin', {badCredentials: true});
         }
     });

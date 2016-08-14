@@ -11,6 +11,7 @@ var subscribed;
 router.get('/', function(req, res, next) {
     subscribed = false;
     mongo.collection('subscribers').findOne({username: req.session.username}, function(err, subs){
+        //Finding if the user is subscribed for all the documents.
         if(subs) {
             subscribed = true;
         }
@@ -20,8 +21,9 @@ router.get('/', function(req, res, next) {
         var urlArray = req.originalUrl.split('/');
         name = urlArray[urlArray.length - 1];
 
-        //Extract the document from the database
+        //Extracting the document from the database
         col.findOne({name: name}, function(err, doc) {
+            //Checking if the user is subscribed for this particular document
             if (!subscribed) {
                 for(var i = 0; i < doc.subscribers.length; ++i) {
                     if(doc.subscribers[i] == req.session.username) {
@@ -44,9 +46,21 @@ router.get('/', function(req, res, next) {
     });
 });
 
+function subscribe(req, res) {
+    var col = mongo.collection('documents');
+    col.updateOne({name: name},
+        {$addToSet: {subscribers: req.session.username}},
+        function (err, result) {
+            res.redirect('/documents/' + name);
+        }
+    );
+}
+
 router.post('/', function(req, res) {
+    //User clicked Subscribe button
     if(req.body.subscribe == "true")
         subscribe(req, res);
+    //User clicked Update button
     else {
         fname = req.body.fname;
         lname = req.body.lname;
@@ -56,6 +70,7 @@ router.post('/', function(req, res) {
         col.findOne({name: name}, function (err, doc) {
             var cnt = 0;
             var notification = "";
+            //Finding how many changes are done and what changes are done
             if (fname != doc.fname) {
                 cnt++;
                 notification = "First name changed from " + doc.fname + " to " + fname;
@@ -90,6 +105,7 @@ router.post('/', function(req, res) {
                     from: name
                 }, function(err, notify) {
                     var notificationId = notify.ops[0]._id;
+                    //Sending notifications to the subscribers subscribed to all the documents
                     mongo.collection('subscribers').find({}).toArray(function (err, users) {
                         for(var i = 0; i < users.length; ++i) {
                             if(users[i].username != req.session.username) {
@@ -99,6 +115,7 @@ router.post('/', function(req, res) {
                             }
                         }
                     });
+                    //Sending notifications to the subscribers subscribed to this document
                     for(var i = 0; i < doc.subscribers.length; ++i) {
                         if(doc.subscribers[i] != req.session.username) {
                             mongo.collection('users').updateOne({username: doc.subscribers[i]},
@@ -112,15 +129,5 @@ router.post('/', function(req, res) {
         });
     }
 });
-
-function subscribe(req, res) {
-    var col = mongo.collection('documents');
-    col.updateOne({name: name},
-        {$addToSet: {subscribers: req.session.username}},
-        function (err, result) {
-            res.redirect('/documents/' + name);
-        }
-    );
-}
 
 module.exports = router;
