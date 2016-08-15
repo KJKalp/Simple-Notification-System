@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 var store = new session.MemoryStore;
-app.use(session({secret: 'qwerty12345', store: store}));
+app.use(session({secret: 'qwerty12345', store: store, resave: true, saveUninitialized: false}));
 
 app.use('/', routes);
 app.use('/signin', signin);
